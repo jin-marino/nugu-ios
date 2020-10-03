@@ -36,7 +36,6 @@ final class NuguCentralManager {
     lazy private(set) var client: NuguClient = {
         let client = NuguClient(delegate: self)
         
-        client.locationAgent.delegate = self
         client.systemAgent.add(systemAgentDelegate: self)
         client.soundAgent.dataSource = self
         
@@ -51,8 +50,6 @@ final class NuguCentralManager {
     
     lazy private(set) var localTTSAgent: LocalTTSAgent = LocalTTSAgent(focusManager: client.focusManager)
     lazy private(set) var asrBeepPlayer: ASRBeepPlayer = ASRBeepPlayer(focusManager: client.focusManager)
-
-    let displayPlayerController = NuguDisplayPlayerController()
     
     lazy private(set) var oauthClient: NuguOAuthClient = {
         do {
@@ -78,13 +75,6 @@ final class NuguCentralManager {
 extension NuguCentralManager {
     func enable() {
         log.debug("")
-        if scopes?.contains("device:S.I.D") == true {
-            client.startReceiveServerInitiatedDirective()
-        } else {
-            client.stopReceiveServerInitiatedDirective()
-        }
-
-        NuguLocationManager.shared.startUpdatingLocation()
         
         // Set Last WakeUp Keyword
         // If you don't want to use saved wakeup-word, don't need to be implemented
@@ -118,9 +108,7 @@ extension NuguCentralManager {
         stopWakeUpDetector()
         stopMicInputProvider()
         stopRecognition()
-        client.stopReceiveServerInitiatedDirective()
         client.ttsAgent.stopTTS()
-        client.audioPlayerAgent.stop()
     }
 }
 
@@ -315,7 +303,6 @@ private extension NuguCentralManager {
     
     func clearSampleAppAfterErrorHandling(sampleAppError: SampleAppError) {
         DispatchQueue.main.async { [weak self] in
-            self?.client.audioPlayerAgent.stop()
             NuguToast.shared.showToast(message: sampleAppError.errorDescription)
             self?.popToRootViewController()
             switch sampleAppError {
@@ -433,10 +420,6 @@ extension NuguCentralManager {
                     return
                 }
                 self.micQueue.async { [unowned self] in
-                    defer {
-                        log.debug("addEngineConfigurationChangeNotification")
-                        NuguAudioSessionManager.shared.addEngineConfigurationChangeNotification()
-                    }
                     self.micInputProvider.stop()
                     if requestingFocus {
                         NuguAudioSessionManager.shared.updateAudioSession(requestingFocus: requestingFocus)
@@ -465,7 +448,6 @@ extension NuguCentralManager {
         micQueue.sync {
             startMicWorkItem?.cancel()
             micInputProvider.stop()
-            NuguAudioSessionManager.shared.removeEngineConfigurationChangeNotification()
         }
     }
 }
@@ -491,29 +473,6 @@ extension NuguCentralManager {
     
     func stopRecognition() {
         client.asrAgent.stopRecognition()
-    }
-}
-
-// MARK: - Internal (Text)
-
-extension NuguCentralManager {
-    func requestTextInput(text: String, token: String? = nil, requestType: TextAgentRequestType, completion: (() -> Void)? = nil) {
-        client.dialogStateAggregator.isChipsRequestInProgress = true
-
-        client.textAgent.requestTextInput(
-            text: text,
-            token: token,
-            requestType: requestType
-        ) { [weak self] state in
-            switch state {
-            case .sent:
-                self?.client.asrAgent.stopRecognition()
-            case .finished, .error:
-                NuguCentralManager.shared.client.dialogStateAggregator.isChipsRequestInProgress = false
-                completion?()
-            default: break
-            }
-        }
     }
 }
 
@@ -559,14 +518,6 @@ extension NuguCentralManager: NuguClientDelegate {
         // Use some analytics SDK(or API) here.
         // Error: EventSenderError
         log.debug("\(error?.localizedDescription ?? ""): \(attachment.header.seq)")
-    }
-}
-
-// MARK: - LocationAgentDelegate
-
-extension NuguCentralManager: LocationAgentDelegate {
-    func locationAgentRequestLocationInfo() -> LocationInfo? {
-        return NuguLocationManager.shared.cachedLocationInfo
     }
 }
 

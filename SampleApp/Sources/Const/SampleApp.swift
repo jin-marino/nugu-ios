@@ -31,7 +31,7 @@ private var nattyConfiguration: NattyConfiguration {
         minLogLevel: .debug,
         maxDescriptionLevel: .error,
         showPersona: true,
-        prefix: "SampleApp"
+        prefix: "FLO_SampleApp"
     )
 }
 
@@ -40,18 +40,7 @@ private var nattyConfiguration: NattyConfiguration {
 struct SampleApp {
     // Own poc_id issued from Nugu Developers site ( https://developers.nugu.co.kr/#/sdk/pocList)
     static var pocId: String {
-        return "nugu.public.sample"
-    }
-    
-    /// Web page url for NUGU usage guide of own device
-    /// URLQueryItem["poc_id"]: put your own poc_id issued from Nugu Developers site ( https://developers.nugu.co.kr/#/sdk/pocList)
-    static func makeGuideWebURL(deviceUniqueId: String) -> URL? {
-        var urlComponent = URLComponents(string: "https://webview.sktnugu.com/v2/3pp/confirm.html")
-        urlComponent?.queryItems = [
-            URLQueryItem(name: "poc_id", value: pocId),
-            URLQueryItem(name: "device_unique_id", value: deviceUniqueId)
-        ]
-        return urlComponent?.url
+        return "app.flo.ios"
     }
     
     /// Intercept open url and replace with redirectUri's scheme
@@ -79,7 +68,7 @@ struct SampleApp {
         return URL(string: "https://privacy.sktelecom.com/view.do?ctg=policy&name=policy")!
     }
     
-    static let oauthRedirectUri: String = "nugu.public.sample://oauth_refresh"
+    static let oauthRedirectUri: String = "nugu.user.67e32c41540b2e4de8c42ccd5fa59e0d://oauth_refresh"
 }
 
 // MARK: - Login Method
@@ -100,50 +89,28 @@ extension SampleApp {
     }
 }
 
-// MARK: - NuguServerType
-
-extension SampleApp {
-    enum NuguServerType {
-        case stg
-        case prd
-    }
-}
-
 // MARK: - Sample data
 
 extension SampleApp {
-    /// Change variables according to your app
-    
-    /// Example for Type1
-    ///
-    /// static var loginMethod: LoginMethod? = .type1
-    /// static var deviceUniqueId: String? = "{Unique-id per device}"
-    /// static var clientId: String? = "{Client-id}" => Client-id is need for oauth-authorization
-    /// static var clientSecret: String? = "{Client-secret}" => Client-secret is need for oauth-authorization
-    /// static var redirectUri: String? = "{Redirect-uri}" => Redirect-uri is need for oauth-authorization
-    
-    /// Example for Type2
-    ///
-    /// static var loginMethod: LoginMethod? = .type1
-    /// static var deviceUniqueId: String? = "{Unique-id per device}"
-    /// static var clientId: String? = "{Client-id}" => Client-id is need for oauth-authorization
-    /// static var clientSecret: String? = "{Client-secret}" => Client-secret is need for oauth-authorization
-    
-    // Common
     static var loginMethod: LoginMethod? {
-        return LoginMethod(rawValue: UserDefaults.Romaine.loginMethod)
+        return .type1
     }
     static var clientId: String? {
-        return UserDefaults.Romaine.clientId
+        return "67e32c41540b2e4de8c42ccd5fa59e0d"
     }
     static var clientSecret: String? {
-        return UserDefaults.Romaine.clientSecret
+        return "4cdfaf36-845e-46e8-8a56-5282fa3d0b23"
     }
-    
-    // Link App (Type 1)
     static var redirectUri: String? {
-        return UserDefaults.Romaine.redirectUri
+        return "nugu.user.67e32c41540b2e4de8c42ccd5fa59e0d://auth"
     }
+}
+
+// MARK: - Notification.Name
+
+extension Notification.Name {
+    static let login = Notification.Name("com.skt.Romaine.login")
+    static let oauthRefresh = Notification.Name("com.skt.Romaine.oauth_refresh")
 }
 
 // MARK: - Safe Area
@@ -157,11 +124,4 @@ extension SampleApp {
             return rootViewController.bottomLayoutGuide.length
         }
     }
-}
-
-// MARK: - Notification.Name
-
-extension Notification.Name {
-    static let login = Notification.Name("com.skt.Romaine.login")
-    static let oauthRefresh = Notification.Name("com.skt.Romaine.oauth_refresh")
 }

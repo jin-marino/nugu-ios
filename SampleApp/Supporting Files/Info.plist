@@ -30,6 +30,16 @@
 				<string>nugu.public.sample</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>SampleAppForFLO</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>nugu.user.67e32c41540b2e4de8c42ccd5fa59e0d</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>

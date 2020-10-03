@@ -26,59 +26,11 @@ import NuguAgents
 final class NuguAudioSessionManager {
     static let shared = NuguAudioSessionManager()
     private let defaultCategoryOptions = AVAudioSession.CategoryOptions(arrayLiteral: [.defaultToSpeaker, .allowBluetoothA2DP])
-    
-    init() {
-        addAudioInterruptionNotification()
-        addAudioRouteChangedNotification()
-    }
-    var pausedByInterruption = false
 }
 
 // MARK: - Internal
 
 extension NuguAudioSessionManager {
-    func addAudioInterruptionNotification() {
-        removeAudioInterruptionNotification()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(interruptionNotification),
-                                               name: AVAudioSession.interruptionNotification,
-                                               object: nil)
-    }
-    
-    func removeAudioInterruptionNotification() {
-        NotificationCenter.default.removeObserver(self,
-                                                  name: AVAudioSession.interruptionNotification,
-                                                  object: nil)
-    }
-    
-    func addAudioRouteChangedNotification() {
-        removeAudioRouteChangedNotification()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(routeChangedNotification),
-                                               name: AVAudioSession.routeChangeNotification,
-                                               object: nil)
-    }
-    
-    func removeAudioRouteChangedNotification() {
-        NotificationCenter.default.removeObserver(self,
-                                                  name: AVAudioSession.routeChangeNotification,
-                                                  object: nil)
-    }
-    
-    func addEngineConfigurationChangeNotification() {
-        removeEngineConfigurationChangeNotification()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(engineConfigurationChange),
-                                               name: .AVAudioEngineConfigurationChange,
-                                               object: nil)
-    }
-    
-    func removeEngineConfigurationChangeNotification() {
-        NotificationCenter.default.removeObserver(self,
-                                                  name: .AVAudioEngineConfigurationChange,
-                                                  object: nil)
-    }
-    
     func requestRecordPermission(_ response: @escaping (Bool) -> Void) {
         AVAudioSession.sharedInstance().requestRecordPermission(response)
     }
@@ -130,71 +82,6 @@ extension NuguAudioSessionManager {
             try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         } catch {
             log.debug("notifyOthersOnDeactivation failed: \(error)")
-        }
-    }
-}
-
-// MARK: - private
-
-private extension NuguAudioSessionManager {
-    @objc func interruptionNotification(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-            let type = AVAudioSession.InterruptionType(rawValue: typeValue) else { return }
-        switch type {
-        case .began:
-            log.debug("Interruption began")
-            // Interruption began, take appropriate actions
-            if NuguCentralManager.shared.client.audioPlayerAgent.isPlaying == true {
-                NuguCentralManager.shared.client.audioPlayerAgent.pause()
-                // PausedByInterruption flag should not be changed before paused delegate method has been called
-                // Giving small delay for changing flag value can be a solution for this situation
-                DispatchQueue.global().asyncAfter(deadline: .now()+0.1) { [weak self] in
-                    self?.pausedByInterruption = true
-                }
-            }
-            NuguCentralManager.shared.client.ttsAgent.stopTTS(cancelAssociation: false)
-        case .ended:
-            log.debug("Interruption ended")
-            if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
-                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-                if options.contains(.shouldResume) {
-                    if UserDefaults.Standard.useWakeUpDetector == true {
-                        NuguCentralManager.shared.startMicInputProvider(requestingFocus: false) { (success) in
-                            log.debug("startMicInputProvider: \(success)")
-                        }
-                    }
-                    if pausedByInterruption == true || NuguCentralManager.shared.client.audioPlayerAgent.isPlaying == true {
-                        NuguCentralManager.shared.client.audioPlayerAgent.play()
-                    }
-                } else {
-                    // Interruption Ended - playback should NOT resume
-                }
-            }
-        @unknown default: break
-        }
-    }
-    
-    @objc func routeChangedNotification(notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-            let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else { return }
-        switch reason {
-        case .oldDeviceUnavailable:
-            log.debug("Route changed due to oldDeviceUnavailable")
-            if NuguCentralManager.shared.client.audioPlayerAgent.isPlaying == true {
-                NuguCentralManager.shared.client.audioPlayerAgent.pause()
-            }
-        default: break
-        }
-    }
-    
-    /// recover when the audio engine is stopped by OS.
-    @objc func engineConfigurationChange(notification: Notification) {
-        if UserDefaults.Standard.useWakeUpDetector == true {
-            NuguCentralManager.shared.startMicInputProvider(requestingFocus: false) { (success) in
-                log.debug("startMicInputProvider: \(success)")
-            }
         }
     }
 }

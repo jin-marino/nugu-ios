@@ -43,27 +43,6 @@ struct SampleApp {
         return "app.flo.ios"
     }
     
-    /// Intercept open url and replace with redirectUri's scheme
-    /// for free pass of Sample app's Oauth validation check
-    /// Used only for Sample app (Clients should not use this code)
-    /// - Parameter openUrl: url parameter from AppDelegate's application(_:open:options:) method for url scheme replacement
-    static func schemeReplacedUrl(openUrl: URL) -> URL? {
-        guard
-            let redirectUri = redirectUri,
-            let redirectUrlComponents = URLComponents(string: redirectUri) else {
-                return nil
-        }
-        
-        var openUrlComponents = URLComponents(url: openUrl, resolvingAgainstBaseURL: false)
-        openUrlComponents?.scheme = redirectUrlComponents.scheme
-        
-        guard let replacedUrl = openUrlComponents?.url else {
-            return nil
-        }
-        
-        return replacedUrl
-    }
-    
     static var privacyUrl: URL {
         return URL(string: "https://privacy.sktelecom.com/view.do?ctg=policy&name=policy")!
     }

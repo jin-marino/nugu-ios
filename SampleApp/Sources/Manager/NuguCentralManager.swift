@@ -29,10 +29,6 @@ import NuguUIKit
 final class NuguCentralManager {
     static let shared = NuguCentralManager()
     
-    // Scopes value received from AuthorizationInfo when logged in successfully
-    // Use this value for start / stop receiving server initiavtive directives
-    private var scopes: [String]?
-    
     lazy private(set) var client: NuguClient = {
         let client = NuguClient(delegate: self)
         
@@ -130,7 +126,6 @@ extension NuguCentralManager {
                     case .success(let authInfo):
                         UserDefaults.Standard.accessToken = authInfo.accessToken
                         UserDefaults.Standard.refreshToken = authInfo.refreshToken
-                        self?.scopes = authInfo.scopes
                         completion(.success(()))
                     case .failure(let sampleAppError):
                         completion(.failure(sampleAppError))
@@ -145,7 +140,6 @@ extension NuguCentralManager {
                 case .success(let authInfo):
                     UserDefaults.Standard.accessToken = authInfo.accessToken
                     UserDefaults.Standard.refreshToken = authInfo.refreshToken
-                    self?.scopes = authInfo.scopes
                     completion(.success(()))
                 case .failure:
                     completion(.failure(.loginWithRefreshTokenFailed))
@@ -156,7 +150,6 @@ extension NuguCentralManager {
                 switch result {
                 case .success(let authInfo):
                     UserDefaults.Standard.accessToken = authInfo.accessToken
-                    self?.scopes = authInfo.scopes
                     completion(.success(()))
                 case .failure(let sampleAppError):
                     completion(.failure(sampleAppError))
@@ -186,7 +179,6 @@ extension NuguCentralManager {
                 case .success(let authInfo):
                     UserDefaults.Standard.accessToken = authInfo.accessToken
                     UserDefaults.Standard.refreshToken = authInfo.refreshToken
-                    self?.scopes = authInfo.scopes
                     self?.enable()
                 case .failure(let sampleAppError):
                     self?.clearSampleAppAfterErrorHandling(sampleAppError: sampleAppError)
@@ -197,7 +189,6 @@ extension NuguCentralManager {
                 switch result {
                 case .success(let authInfo):
                     UserDefaults.Standard.accessToken = authInfo.accessToken
-                    self?.scopes = authInfo.scopes
                     self?.enable()
                 case .failure(let sampleAppError):
                     self?.clearSampleAppAfterErrorHandling(sampleAppError: sampleAppError)
@@ -228,7 +219,6 @@ extension NuguCentralManager {
     }
     
     func clearSampleApp() {
-        scopes = nil
         popToRootViewController()
         disable()
         UserDefaults.Standard.clear()
@@ -308,14 +298,12 @@ private extension NuguCentralManager {
             switch sampleAppError {
             case .loginUnauthorized:
                 self?.localTTSAgent.playLocalTTS(type: .pocStateServiceTerminated, completion: { [weak self] in
-                    self?.scopes = nil
                     self?.disable()
                     UserDefaults.Standard.clear()
                     UserDefaults.Nugu.clear()
                 })
             default:
                 self?.localTTSAgent.playLocalTTS(type: .deviceGatewayAuthError, completion: { [weak self] in
-                    self?.scopes = nil
                     self?.disable()
                     UserDefaults.Standard.clear()
                     UserDefaults.Nugu.clear()

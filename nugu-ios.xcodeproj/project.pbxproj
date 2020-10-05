@@ -143,7 +143,6 @@
 		1FFFF4DF237672F100C9A177 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFFF4A5237672F100C9A177 /* SettingViewController.swift */; };
 		1FFFF4E0237672F100C9A177 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFFF4A6237672F100C9A177 /* IntroViewController.swift */; };
 		1FFFF4E1237672F100C9A177 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFFF4A7237672F100C9A177 /* MainViewController.swift */; };
-		1FFFF4E3237672F100C9A177 /* NuguWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFFF4AA237672F100C9A177 /* NuguWebView.swift */; };
 		1FFFF4F9237672F100C9A177 /* SampleAppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFFF4C6237672F100C9A177 /* SampleAppError.swift */; };
 		1FFFF4FA237672F100C9A177 /* SampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFFF4C7237672F100C9A177 /* SampleApp.swift */; };
 		1FFFF4FC237672F100C9A177 /* NuguCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFFF4CA237672F100C9A177 /* NuguCentralManager.swift */; };
@@ -333,11 +332,6 @@
 		7525ACB4249C4177006800A3 /* NattyLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F100907237929FB00D90FEE /* NattyLog.framework */; };
 		7525ACB6249C4255006800A3 /* NuguServiceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7525ACB5249C4255006800A3 /* NuguServiceKit.swift */; };
 		7525AD0824AD6054006800A3 /* NuguServiceWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7525AD0724AD6054006800A3 /* NuguServiceWebViewController.swift */; };
-		755A92C62528125E00A4C6AC /* skt_trigger_am_tinkerbell.raw in Resources */ = {isa = PBXBuildFile; fileRef = 755A92C12528125E00A4C6AC /* skt_trigger_am_tinkerbell.raw */; };
-		755A92C72528125E00A4C6AC /* skt_epd_model.raw in Resources */ = {isa = PBXBuildFile; fileRef = 755A92C22528125E00A4C6AC /* skt_epd_model.raw */; };
-		755A92C82528125E00A4C6AC /* skt_trigger_am_aria.raw in Resources */ = {isa = PBXBuildFile; fileRef = 755A92C32528125E00A4C6AC /* skt_trigger_am_aria.raw */; };
-		755A92C92528125E00A4C6AC /* skt_trigger_search_aria.raw in Resources */ = {isa = PBXBuildFile; fileRef = 755A92C42528125E00A4C6AC /* skt_trigger_search_aria.raw */; };
-		755A92CA2528125E00A4C6AC /* skt_trigger_search_tinkerbell.raw in Resources */ = {isa = PBXBuildFile; fileRef = 755A92C52528125E00A4C6AC /* skt_trigger_search_tinkerbell.raw */; };
 		75AE7FFB245173BC00E20E8C /* NuguChipsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AE7FFA245173BC00E20E8C /* NuguChipsButton.swift */; };
 		75AE8023245190CC00E20E8C /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75ABAB06244EFD8600B4BB2D /* Lottie.framework */; };
 		75C61BB324C6DB8700265228 /* 05_processing.json in Resources */ = {isa = PBXBuildFile; fileRef = 75C61BAC24C6DB8700265228 /* 05_processing.json */; };
@@ -762,7 +756,6 @@
 		1FFFF4A5237672F100C9A177 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		1FFFF4A6237672F100C9A177 /* IntroViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		1FFFF4A7237672F100C9A177 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		1FFFF4AA237672F100C9A177 /* NuguWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NuguWebView.swift; sourceTree = "<group>"; };
 		1FFFF4C6237672F100C9A177 /* SampleAppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleAppError.swift; sourceTree = "<group>"; };
 		1FFFF4C7237672F100C9A177 /* SampleApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleApp.swift; sourceTree = "<group>"; };
 		1FFFF4CA237672F100C9A177 /* NuguCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NuguCentralManager.swift; sourceTree = "<group>"; };
@@ -918,11 +911,6 @@
 		7525ACB2249C3F36006800A3 /* NuguServiceWebJavascriptDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuguServiceWebJavascriptDelegate.swift; sourceTree = "<group>"; };
 		7525ACB5249C4255006800A3 /* NuguServiceKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuguServiceKit.swift; sourceTree = "<group>"; };
 		7525AD0724AD6054006800A3 /* NuguServiceWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NuguServiceWebViewController.swift; sourceTree = "<group>"; };
-		755A92C12528125E00A4C6AC /* skt_trigger_am_tinkerbell.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = skt_trigger_am_tinkerbell.raw; sourceTree = "<group>"; };
-		755A92C22528125E00A4C6AC /* skt_epd_model.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = skt_epd_model.raw; sourceTree = "<group>"; };
-		755A92C32528125E00A4C6AC /* skt_trigger_am_aria.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = skt_trigger_am_aria.raw; sourceTree = "<group>"; };
-		755A92C42528125E00A4C6AC /* skt_trigger_search_aria.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = skt_trigger_search_aria.raw; sourceTree = "<group>"; };
-		755A92C52528125E00A4C6AC /* skt_trigger_search_tinkerbell.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = skt_trigger_search_tinkerbell.raw; sourceTree = "<group>"; };
 		75ABAB06244EFD8600B4BB2D /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = Carthage/Build/iOS/Lottie.framework; sourceTree = "<group>"; };
 		75AE7FFA245173BC00E20E8C /* NuguChipsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NuguChipsButton.swift; sourceTree = "<group>"; };
 		75C61BAC24C6DB8700265228 /* 05_processing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 05_processing.json; sourceTree = "<group>"; };
@@ -1970,7 +1958,6 @@
 		1FFFF4A9237672F100C9A177 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1FFFF4AA237672F100C9A177 /* NuguWebView.swift */,
 				75D069C3247F76CC000B5D1F /* SettingTableViewCell.swift */,
 			);
 			path = Views;
@@ -2007,11 +1994,6 @@
 		1FFFF4D1237672F100C9A177 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				755A92C22528125E00A4C6AC /* skt_epd_model.raw */,
-				755A92C32528125E00A4C6AC /* skt_trigger_am_aria.raw */,
-				755A92C12528125E00A4C6AC /* skt_trigger_am_tinkerbell.raw */,
-				755A92C42528125E00A4C6AC /* skt_trigger_search_aria.raw */,
-				755A92C52528125E00A4C6AC /* skt_trigger_search_tinkerbell.raw */,
 				1FFFF4D2237672F100C9A177 /* Assets.xcassets */,
 				1FFFF4D3237672F100C9A177 /* LaunchScreen.storyboard */,
 				1FFFF4D5237672F100C9A177 /* Main.storyboard */,
@@ -2846,21 +2828,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				75047D9B24F4DE8F007BBF22 /* listening_end.wav in Resources */,
-				755A92C92528125E00A4C6AC /* skt_trigger_search_aria.raw in Resources */,
 				1FFFF503237672F100C9A177 /* LaunchScreen.storyboard in Resources */,
 				75047D9C24F4DE8F007BBF22 /* listening_start.wav in Resources */,
-				755A92CA2528125E00A4C6AC /* skt_trigger_search_tinkerbell.raw in Resources */,
 				A17B06612394D22800D739E9 /* device_GW_error_003.wav in Resources */,
 				A17B065F2394D22800D739E9 /* device_GW_error_001.wav in Resources */,
-				755A92C82528125E00A4C6AC /* skt_trigger_am_aria.raw in Resources */,
 				1FFFF502237672F100C9A177 /* Assets.xcassets in Resources */,
-				755A92C62528125E00A4C6AC /* skt_trigger_am_tinkerbell.raw in Resources */,
 				A17B06642394D22800D739E9 /* device_GW_error_006.wav in Resources */,
 				75047D9A24F4DE8F007BBF22 /* responsefail.wav in Resources */,
 				A17B06602394D22800D739E9 /* device_GW_error_005.wav in Resources */,
 				1FFFF504237672F100C9A177 /* Main.storyboard in Resources */,
 				A17B06632394D22800D739E9 /* poc_end_error.wav in Resources */,
-				755A92C72528125E00A4C6AC /* skt_epd_model.raw in Resources */,
 				A17B065E2394D22800D739E9 /* device_GW_error_002.wav in Resources */,
 				A17B06622394D22800D739E9 /* device_GW_error_004.wav in Resources */,
 			);
@@ -3153,7 +3130,6 @@
 				1FFFF4FE237672F100C9A177 /* AppDelegate.swift in Sources */,
 				1FFFF4E0237672F100C9A177 /* IntroViewController.swift in Sources */,
 				1FFFF4F9237672F100C9A177 /* SampleAppError.swift in Sources */,
-				1FFFF4E3237672F100C9A177 /* NuguWebView.swift in Sources */,
 				1FFFF4FC237672F100C9A177 /* NuguCentralManager.swift in Sources */,
 				1FFFF501237672F100C9A177 /* UserDefaults+Standard.swift in Sources */,
 				1FFFF4FA237672F100C9A177 /* SampleApp.swift in Sources */,

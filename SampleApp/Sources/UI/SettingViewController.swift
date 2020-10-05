@@ -32,7 +32,6 @@ final class SettingViewController: UIViewController {
 
     private let settingMenu = [
         ["TID"],
-        ["서비스 관리"],
         ["NUGU 사용하기", "이름을 불러 대화 시작하기", "부르는 이름", "호출 효과음", "응답 효과음", "응답 실패 효과음"],
         ["이용약관", "개인정보 처리방침"],
         ["연결 해제"]
@@ -84,7 +83,7 @@ extension SettingViewController: UITableViewDataSource {
         
         if indexPath.section == 0 {
             cell.configure(text: menuTitle, detailText: tid)
-        } else if indexPath.section == 2 {
+        } else if indexPath.section == 1 {
             switch indexPath.row {
             case 0:
                 cell.configure(text: menuTitle, isSwitchOn: UserDefaults.Standard.useNuguService, isSwitchEnabled: true)
@@ -134,9 +133,7 @@ extension SettingViewController: UITableViewDelegate {
             NuguCentralManager.shared.showTidInfo(parentViewController: self, completion: { [weak self] tid in
                 self?.tid = tid
             })
-        case (1, 0):
-            performSegue(withIdentifier: "showNuguServiceWebView", sender: NuguServiceWebView.serviceSettingUrl)
-        case (2, 2):
+        case (1, 2):
             let wakeUpWordActionSheet = UIAlertController(
                 title: nil,
                 message: nil,
@@ -153,11 +150,11 @@ extension SettingViewController: UITableViewDelegate {
                 wakeUpWordActionSheet.addAction(action)
             }
             present(wakeUpWordActionSheet, animated: true)
-        case (3, 0):
+        case (2, 0):
             performSegue(withIdentifier: "showNuguServiceWebView", sender: NuguServiceWebView.agreementUrl)
-        case (3, 1):
+        case (2, 1):
             UIApplication.shared.open(SampleApp.privacyUrl, options: [:], completionHandler: nil)
-        case (4, 0):
+        case (3, 0):
             dismiss(animated: true, completion: {
                 NuguCentralManager.shared.revoke()
             })

@@ -88,7 +88,6 @@ extension SampleApp {
 // MARK: - Notification.Name
 
 extension Notification.Name {
-    static let login = Notification.Name("com.skt.Romaine.login")
     static let oauthRefresh = Notification.Name("com.skt.Romaine.oauth_refresh")
 }
 

@@ -57,14 +57,6 @@ extension UserDefaults {
         /// Authorization token for networking with nugu received as a result of oauth.
         @UserDefault(userDefaults: .standard, key: "accessToken", defaultValue: nil)
         static var accessToken: String?
-        
-        // MARK: LoginType
-        
-        /// Not neccesary for your app.
-        /// It is only needed for the login type(type1, type2) in the sample app.
-        /// Default value is type1.
-        @UserDefault(userDefaults: .standard, key: "currentloginMethod", defaultValue: 0)
-        static var currentloginMethod: Int
     }
 }
 

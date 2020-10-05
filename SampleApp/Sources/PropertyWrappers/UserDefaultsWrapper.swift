@@ -34,9 +34,3 @@ struct UserDefault<T> {
         }
     }
 }
-
-// MARK: - Custom
-
-extension UserDefaults {
-    static let romaine = UserDefaults(suiteName: "group.com.sktelecom.romaine")!
-}

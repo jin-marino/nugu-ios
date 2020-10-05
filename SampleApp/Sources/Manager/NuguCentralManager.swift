@@ -420,6 +420,10 @@ extension NuguCentralManager {
                     return
                 }
                 self.micQueue.async { [unowned self] in
+                    defer {
+                        log.debug("addEngineConfigurationChangeNotification")
+                        NuguAudioSessionManager.shared.addEngineConfigurationChangeNotification()
+                    }
                     self.micInputProvider.stop()
                     if requestingFocus {
                         NuguAudioSessionManager.shared.updateAudioSession(requestingFocus: requestingFocus)
@@ -448,6 +452,7 @@ extension NuguCentralManager {
         micQueue.sync {
             startMicWorkItem?.cancel()
             micInputProvider.stop()
+            NuguAudioSessionManager.shared.removeEngineConfigurationChangeNotification()
         }
     }
 }

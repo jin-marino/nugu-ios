@@ -33,32 +33,9 @@ final class IntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        refreshView()
-        
-        if SampleApp.loginMethod == .type1 && UserDefaults.Standard.refreshToken != nil {
+        if UserDefaults.Standard.refreshToken != nil {
             logIn()
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(willEnterForeground(_:)),
-            name: UIApplication.willEnterForegroundNotification,
-            object: nil
-        )
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIApplication.willEnterForegroundNotification,
-            object: nil
-        )
     }
     
     // MARK: Deinitialize
@@ -70,11 +47,6 @@ final class IntroViewController: UIViewController {
 
 private extension IntroViewController {
     func logIn() {
-        guard SampleApp.loginMethod != nil else {
-            presentNoDataPopup()
-            return
-        }
-
         NuguCentralManager.shared.login(from: self, completion: { [weak self] result in
             switch result {
             case .success:
@@ -108,14 +80,6 @@ private extension IntroViewController {
 // MARK: - View
 
 private extension IntroViewController {
-    func refreshView() {
-        if let name = SampleApp.loginMethod?.name {
-            loginMethodLabel.text = "\(name) Mode"
-        } else {
-            loginMethodLabel.text = "샘플 데이터 없음"
-        }
-    }
-    
     // MARK: AlertController
     
     func presentLoginWithRefreshTokenErrorPopup() {
@@ -150,13 +114,5 @@ private extension IntroViewController {
         DispatchQueue.main.async { [weak self] in
             self?.present(alertController, animated: true)
         }
-    }
-}
-
-// MARK: - Private (Selector)
-
-@objc private extension IntroViewController {
-    func willEnterForeground(_ notification: Notification) {
-        refreshView()
     }
 }

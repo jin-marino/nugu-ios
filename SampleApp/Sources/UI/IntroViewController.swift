@@ -23,11 +23,6 @@ import UIKit
 import NuguUIKit
 
 final class IntroViewController: UIViewController {
-    
-    // MARK: Properties
-    
-    @IBOutlet private weak var loginMethodLabel: UILabel!
-    
     // MARK: Override
     
     override func viewDidLoad() {
@@ -37,10 +32,6 @@ final class IntroViewController: UIViewController {
             logIn()
         }
     }
-    
-    // MARK: Deinitialize
-    
-    deinit {}
 }
 
 // MARK: - Private (login)
@@ -80,6 +71,7 @@ private extension IntroViewController {
 // MARK: - View
 
 private extension IntroViewController {
+    
     // MARK: AlertController
     
     func presentLoginWithRefreshTokenErrorPopup() {
@@ -98,19 +90,6 @@ private extension IntroViewController {
                 UserDefaults.Nugu.clear()
             }
         ))
-        DispatchQueue.main.async { [weak self] in
-            self?.present(alertController, animated: true)
-        }
-    }
-    
-    func presentNoDataPopup() {
-        let alertController = UIAlertController(
-            title: "Warning",
-            message: "App has not mandatory data, see SampleApp.swift",
-            preferredStyle: .alert
-        )
-        
-        alertController.addAction(UIAlertAction(title: "OK", style: .default))
         DispatchQueue.main.async { [weak self] in
             self?.present(alertController, animated: true)
         }

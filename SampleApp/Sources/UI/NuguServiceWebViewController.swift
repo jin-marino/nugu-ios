@@ -37,26 +37,6 @@ final class NuguServiceWebViewController: UIViewController {
         nuguServiceWebView.javascriptDelegate = self
         setCookie()
         nuguServiceWebView.loadUrlString(initialURLString)
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(refreshAfterOauth),
-            name: .oauthRefresh,
-            object: nil
-        )
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-}
-
-// MARK: - @objc (oauth_refresh)
-
-private extension NuguServiceWebViewController {
-    @objc func refreshAfterOauth() {
-        presentedViewController?.dismiss(animated: true, completion: nil)
-        nuguServiceWebView.reload()
     }
 }
 

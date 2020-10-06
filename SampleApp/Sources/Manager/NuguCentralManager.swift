@@ -25,6 +25,7 @@ import NuguAgents
 import NuguClientKit
 import NuguLoginKit
 import NuguUIKit
+import NuguServiceKit
 
 final class NuguCentralManager {
     static let shared = NuguCentralManager()
@@ -65,6 +66,7 @@ final class NuguCentralManager {
     private init() {
         NuguServerInfo.resourceServerAddress = "https://stg-gw-http.sktnugu.com"
         NuguOAuthServerInfo.serverBaseUrl = "https://stg-api.sktnugu.com/v1/auth"
+        NuguServiceWebView.domain = "https://stg-webview.sktnugu.com"
     }
 }
 

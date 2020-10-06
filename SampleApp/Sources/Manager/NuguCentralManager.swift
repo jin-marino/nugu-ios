@@ -49,7 +49,7 @@ final class NuguCentralManager {
     
     lazy private(set) var oauthClient: NuguOAuthClient = {
         do {
-            return try NuguOAuthClient(serviceName: Bundle.main.bundleIdentifier ?? "NuguSample")
+            return try NuguOAuthClient(serviceName: Bundle.main.bundleIdentifier!)
         } catch {
             log.warning("OAuthClient has instantiated by using deviceUniqueId")
             return NuguOAuthClient(deviceUniqueId: "sample-device-unique-id")
@@ -112,94 +112,57 @@ extension NuguCentralManager {
 
 extension NuguCentralManager {
     func login(from viewController: UIViewController, completion: @escaping (Result<Void, SampleAppError>) -> Void) {
-        guard let loginMethod = SampleApp.loginMethod else {
-            completion(.failure(SampleAppError.nilValue(description: "loginMethod is nil")))
-            return
-        }
-        
-        switch loginMethod {
-        case .type1:
-            // If has not refreshToken
-            guard let refreshToken = UserDefaults.Standard.refreshToken else {
-                authorizationCodeLogin(from: viewController) { [weak self] (result) in
-                    switch result {
-                    case .success(let authInfo):
-                        UserDefaults.Standard.accessToken = authInfo.accessToken
-                        UserDefaults.Standard.refreshToken = authInfo.refreshToken
-                        completion(.success(()))
-                    case .failure(let sampleAppError):
-                        completion(.failure(sampleAppError))
-                    }
-                }
-                return
-            }
-            
-            // If has refreshToken
-            refreshTokenLogin(refreshToken: refreshToken) { [weak self] (result) in
+        // If has not refreshToken
+        guard let refreshToken = UserDefaults.Standard.refreshToken else {
+            authorizationCodeLogin(from: viewController) { (result) in
                 switch result {
                 case .success(let authInfo):
                     UserDefaults.Standard.accessToken = authInfo.accessToken
                     UserDefaults.Standard.refreshToken = authInfo.refreshToken
-                    completion(.success(()))
-                case .failure:
-                    completion(.failure(.loginWithRefreshTokenFailed))
-                }
-            }
-        case .type2:
-            clientCredentialsLogin { [weak self] (result) in
-                switch result {
-                case .success(let authInfo):
-                    UserDefaults.Standard.accessToken = authInfo.accessToken
                     completion(.success(()))
                 case .failure(let sampleAppError):
                     completion(.failure(sampleAppError))
                 }
             }
+            return
+        }
+        
+        // If has refreshToken
+        refreshTokenLogin(refreshToken: refreshToken) { (result) in
+            switch result {
+            case .success(let authInfo):
+                UserDefaults.Standard.accessToken = authInfo.accessToken
+                UserDefaults.Standard.refreshToken = authInfo.refreshToken
+                completion(.success(()))
+            case .failure:
+                completion(.failure(.loginWithRefreshTokenFailed))
+            }
         }
     }
     
     func handleAuthError() {
-        guard let loginMethod = SampleApp.loginMethod else {
-            log.info("loginMethod is nil")
+        // If has not refreshToken
+        guard let refreshToken = UserDefaults.Standard.refreshToken else {
+            log.debug("Try to login with refresh token when refresh token is nil")
+            clearSampleAppAfterErrorHandling(sampleAppError: .nilValue(description: "Try to login with refresh token when refresh token is nil"))
             return
         }
         
-        switch loginMethod {
-        case .type1:
-            // If has not refreshToken
-            guard let refreshToken = UserDefaults.Standard.refreshToken else {
-                log.debug("Try to login with refresh token when refresh token is nil")
-                clearSampleAppAfterErrorHandling(sampleAppError: .nilValue(description: "Try to login with refresh token when refresh token is nil"))
-                return
-            }
-            
-            // If has refreshToken
-            refreshTokenLogin(refreshToken: refreshToken) { [weak self] (result) in
-                switch result {
-                case .success(let authInfo):
-                    UserDefaults.Standard.accessToken = authInfo.accessToken
-                    UserDefaults.Standard.refreshToken = authInfo.refreshToken
-                    self?.enable()
-                case .failure(let sampleAppError):
-                    self?.clearSampleAppAfterErrorHandling(sampleAppError: sampleAppError)
-                }
-            }
-        case .type2:
-            clientCredentialsLogin { [weak self] (result) in
-                switch result {
-                case .success(let authInfo):
-                    UserDefaults.Standard.accessToken = authInfo.accessToken
-                    self?.enable()
-                case .failure(let sampleAppError):
-                    self?.clearSampleAppAfterErrorHandling(sampleAppError: sampleAppError)
-                }
+        // If has refreshToken
+        refreshTokenLogin(refreshToken: refreshToken) { [weak self] (result) in
+            switch result {
+            case .success(let authInfo):
+                UserDefaults.Standard.accessToken = authInfo.accessToken
+                UserDefaults.Standard.refreshToken = authInfo.refreshToken
+                self?.enable()
+            case .failure(let sampleAppError):
+                self?.clearSampleAppAfterErrorHandling(sampleAppError: sampleAppError)
             }
         }
     }
     
     func revoke() {
-        if SampleApp.loginMethod == SampleApp.LoginMethod.type1,
-            let clientId = SampleApp.clientId,
+        if let clientId = SampleApp.clientId,
             let clientSecret = SampleApp.clientSecret,
             let token = UserDefaults.Standard.accessToken {
             oauthClient.revoke(
@@ -249,8 +212,7 @@ extension NuguCentralManager {
     }
     
     func showTidInfo(parentViewController: UIViewController, completion: ((_ tid: String?) -> Void)?) {
-        guard SampleApp.loginMethod == SampleApp.LoginMethod.type1,
-            let clientId = SampleApp.clientId,
+        guard let clientId = SampleApp.clientId,
             let clientSecret = SampleApp.clientSecret,
             let redirectUri = SampleApp.redirectUri,
             let token = UserDefaults.Standard.accessToken else {
@@ -373,19 +335,6 @@ private extension NuguCentralManager {
         
         oauthClient.authorize(grant: RefreshTokenGrant(clientId: clientId, clientSecret: clientSecret, refreshToken: refreshToken)) { (result) in
                 completion(result.mapError { SampleAppError.parseFromNuguLoginKitError(error: $0) })
-        }
-    }
-    
-    func clientCredentialsLogin(completion: @escaping (Result<AuthorizationInfo, SampleAppError>) -> Void) {
-        guard
-            let clientId = SampleApp.clientId,
-            let clientSecret = SampleApp.clientSecret else {
-                completion(.failure(SampleAppError.nilValue(description: "There is nil value in clientId, clientSecret")))
-                return
-        }
-        
-        oauthClient.authorize(grant: ClientCredentialsGrant(clientId: clientId, clientSecret: clientSecret)) { (result) in
-            completion(result.mapError { SampleAppError.parseFromNuguLoginKitError(error: $0) })
         }
     }
 }

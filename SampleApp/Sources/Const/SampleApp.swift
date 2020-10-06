@@ -50,30 +50,9 @@ struct SampleApp {
     static let oauthRedirectUri: String = "nugu.user.67e32c41540b2e4de8c42ccd5fa59e0d://oauth_refresh"
 }
 
-// MARK: - Login Method
-
-extension SampleApp {
-    enum LoginMethod: Int, CaseIterable {
-        /// Nugu App Link
-        case type1 = 0
-        /// Anonymous
-        case type2 = 1
-        
-        var name: String {
-            switch self {
-            case .type1: return "Type 1"
-            case .type2: return "Type 2"
-            }
-        }
-    }
-}
-
 // MARK: - Sample data
 
 extension SampleApp {
-    static var loginMethod: LoginMethod? {
-        return .type1
-    }
     static var clientId: String? {
         return "67e32c41540b2e4de8c42ccd5fa59e0d"
     }

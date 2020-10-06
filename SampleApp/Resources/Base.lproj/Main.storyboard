@@ -35,7 +35,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="4iW-66-i8q">
                                 <rect key="frame" x="97.666666666666686" y="370.66666666666669" width="180" height="81"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Method" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfr-R9-Oqn">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FLO-SAMPLE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfr-R9-Oqn">
                                         <rect key="frame" x="0.0" y="0.0" width="180" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="2g1-R0-5c4"/>
@@ -73,7 +73,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="NbW-lm-0UB"/>
                     <connections>
-                        <outlet property="loginMethodLabel" destination="Dfr-R9-Oqn" id="tjm-XM-z5E"/>
                         <segue destination="CDe-cd-LHH" kind="show" identifier="introToMain" id="HTf-18-NKW"/>
                     </connections>
                 </viewController>

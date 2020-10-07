@@ -47,7 +47,8 @@ final class NuguCentralManager {
     
     lazy private(set) var localTTSAgent: LocalTTSAgent = LocalTTSAgent(focusManager: client.focusManager)
     lazy private(set) var asrBeepPlayer: ASRBeepPlayer = ASRBeepPlayer(focusManager: client.focusManager)
-    
+    lazy private(set) var samplePlayer: SamplePlayer = SamplePlayer()
+        
     lazy private(set) var oauthClient: NuguOAuthClient = {
         do {
             return try NuguOAuthClient(serviceName: Bundle.main.bundleIdentifier!)
@@ -66,7 +67,7 @@ final class NuguCentralManager {
     private init() {
         NuguServerInfo.resourceServerAddress = "https://stg-gw-http.sktnugu.com"
         NuguOAuthServerInfo.serverBaseUrl = "https://stg-api.sktnugu.com/v1/auth"
-        NuguServiceWebView.domain = "https://stg-webview.sktnugu.com"
+//        NuguServiceWebView.domain = "https://stg-webview.sktnugu.com"
     }
 }
 
@@ -280,7 +281,6 @@ private extension NuguCentralManager {
 }
 
 // MARK: - Private (NetworkError handling)
-// TODO: - Should consider and decide for best way for handling network errors
 
 private extension NuguCentralManager {
     func handleNetworkError(error: Error) {
@@ -434,6 +434,9 @@ extension NuguCentralManager: NuguClientDelegate {
     }
     
     func nuguClientDidReleaseAudioSession() {
+        guard case SamplePlayer.State.stopped = samplePlayer.state else {
+            return
+        }
         NuguAudioSessionManager.shared.notifyAudioSessionDeactivation()
     }
     

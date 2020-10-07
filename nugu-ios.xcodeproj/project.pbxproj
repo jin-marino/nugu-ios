@@ -308,6 +308,8 @@
 		739078FD241A3E0C007D753F /* ServerSideEventReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739078FB241A3E0B007D753F /* ServerSideEventReceiver.swift */; };
 		739078FE241A3E0C007D753F /* ServerSideEventReceiverState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739078FC241A3E0C007D753F /* ServerSideEventReceiverState.swift */; };
 		73D380A423E7F22E000C5ED5 /* SpeexCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D380A323E7F22E000C5ED5 /* SpeexCodec.swift */; };
+		7500AB68252D9A7B003F3EA6 /* LUV.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7500AB67252D9A7B003F3EA6 /* LUV.mp3 */; };
+		7500AB73252D9BFF003F3EA6 /* SamplePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7500AB72252D9BFF003F3EA6 /* SamplePlayer.swift */; };
 		75047D9A24F4DE8F007BBF22 /* responsefail.wav in Resources */ = {isa = PBXBuildFile; fileRef = 75047D9724F4DE8E007BBF22 /* responsefail.wav */; };
 		75047D9B24F4DE8F007BBF22 /* listening_end.wav in Resources */ = {isa = PBXBuildFile; fileRef = 75047D9824F4DE8F007BBF22 /* listening_end.wav */; };
 		75047D9C24F4DE8F007BBF22 /* listening_start.wav in Resources */ = {isa = PBXBuildFile; fileRef = 75047D9924F4DE8F007BBF22 /* listening_start.wav */; };
@@ -889,6 +891,8 @@
 		739078FB241A3E0B007D753F /* ServerSideEventReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerSideEventReceiver.swift; sourceTree = "<group>"; };
 		739078FC241A3E0C007D753F /* ServerSideEventReceiverState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerSideEventReceiverState.swift; sourceTree = "<group>"; };
 		73D380A323E7F22E000C5ED5 /* SpeexCodec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeexCodec.swift; sourceTree = "<group>"; };
+		7500AB67252D9A7B003F3EA6 /* LUV.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LUV.mp3; sourceTree = "<group>"; };
+		7500AB72252D9BFF003F3EA6 /* SamplePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamplePlayer.swift; sourceTree = "<group>"; };
 		75047D9724F4DE8E007BBF22 /* responsefail.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = responsefail.wav; sourceTree = "<group>"; };
 		75047D9824F4DE8F007BBF22 /* listening_end.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = listening_end.wav; sourceTree = "<group>"; };
 		75047D9924F4DE8F007BBF22 /* listening_start.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = listening_start.wav; sourceTree = "<group>"; };
@@ -1991,6 +1995,7 @@
 		1FFFF4D1237672F100C9A177 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7500AB67252D9A7B003F3EA6 /* LUV.mp3 */,
 				1FFFF4D2237672F100C9A177 /* Assets.xcassets */,
 				1FFFF4D3237672F100C9A177 /* LaunchScreen.storyboard */,
 				1FFFF4D5237672F100C9A177 /* Main.storyboard */,
@@ -2392,6 +2397,7 @@
 		A17B06D0239E28BA00D739E9 /* MediaPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				7500AB72252D9BFF003F3EA6 /* SamplePlayer.swift */,
 				A17B06D1239E28DB00D739E9 /* ASRBeepPlayer.swift */,
 				A17B06D3239E28EB00D739E9 /* LocalTTSAgent.swift */,
 			);
@@ -2828,6 +2834,7 @@
 				1FFFF503237672F100C9A177 /* LaunchScreen.storyboard in Resources */,
 				75047D9C24F4DE8F007BBF22 /* listening_start.wav in Resources */,
 				A17B06612394D22800D739E9 /* device_GW_error_003.wav in Resources */,
+				7500AB68252D9A7B003F3EA6 /* LUV.mp3 in Resources */,
 				A17B065F2394D22800D739E9 /* device_GW_error_001.wav in Resources */,
 				1FFFF502237672F100C9A177 /* Assets.xcassets in Resources */,
 				A17B06642394D22800D739E9 /* device_GW_error_006.wav in Resources */,
@@ -3121,6 +3128,7 @@
 				7E3C570F2450049C00FF36DF /* Keyword.swift in Sources */,
 				A17B06D4239E28EB00D739E9 /* LocalTTSAgent.swift in Sources */,
 				7525AD0824AD6054006800A3 /* NuguServiceWebViewController.swift in Sources */,
+				7500AB73252D9BFF003F3EA6 /* SamplePlayer.swift in Sources */,
 				A1B86FF82390B3C100F6BD11 /* NuguAudioSessionManager.swift in Sources */,
 				1FFFF4DF237672F100C9A177 /* SettingViewController.swift in Sources */,
 				1FFFF4FE237672F100C9A177 /* AppDelegate.swift in Sources */,

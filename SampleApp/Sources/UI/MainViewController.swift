@@ -335,7 +335,13 @@ extension MainViewController: ASRAgentDelegate {
             } else {
                 NuguCentralManager.shared.stopMicInputProvider()
             }
+            if case SamplePlayer.State.paused(temporary: true) = NuguCentralManager.shared.samplePlayer.state {
+                NuguCentralManager.shared.samplePlayer.resume()
+            }
         case .listening:
+            if case SamplePlayer.State.playing = NuguCentralManager.shared.samplePlayer.state {
+                NuguCentralManager.shared.samplePlayer.pause(temporary: true)
+            }
             NuguCentralManager.shared.stopWakeUpDetector()
         case .expectingSpeech:
             NuguCentralManager.shared.startMicInputProvider(requestingFocus: true) { (success) in
@@ -384,20 +390,22 @@ extension MainViewController: MediaPlayerAgentDelegate {
     func mediaPlayerAgentRequestContext() -> MediaPlayerAgentContext? {
         return MediaPlayerAgentContext(
             appStatus: "NORMAL",
-            playerActivity: "STOPPED",
-            user: nil,
-            currentSong: nil,
+            playerActivity: NuguCentralManager.shared.samplePlayer.state.stringValue,
+            user: MediaPlayerAgentContext.User(isLogIn: "FALSE", hasVoucher: "FALSE"),
+            currentSong: MediaPlayerAgentSong(category: .none, theme: nil, genre: nil, artist: ["전소미"], album: "What You Waiting For", title: "What You Waiting For", duration: "0", issueDate: nil, etc: nil),
             playlist: nil,
-            toggle: nil
+            toggle: MediaPlayerAgentContext.Toggle(repeat: "ONE", shuffle: "ON")
         )
     }
-    
+        
     func mediaPlayerAgentReceivePlay(payload: MediaPlayerAgentDirectivePayload.Play, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Play) -> Void)) {
         log.debug("+++")
+        NuguCentralManager.shared.samplePlayer.play()
     }
     
     func mediaPlayerAgentReceiveStop(playServiceId: String, token: String, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Stop) -> Void)) {
         log.debug("+++")
+        NuguCentralManager.shared.samplePlayer.stop()
     }
     
     func mediaPlayerAgentReceiveSearch(payload: MediaPlayerAgentDirectivePayload.Search, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Search) -> Void)) {
@@ -418,10 +426,12 @@ extension MainViewController: MediaPlayerAgentDelegate {
     
     func mediaPlayerAgentReceivePause(playServiceId: String, token: String, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Pause) -> Void)) {
         log.debug("+++")
+        NuguCentralManager.shared.samplePlayer.pause(temporary: false)
     }
     
     func mediaPlayerAgentReceiveResume(playServiceId: String, token: String, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Resume) -> Void)) {
         log.debug("+++")
+        NuguCentralManager.shared.samplePlayer.resume()
     }
     
     func mediaPlayerAgentReceiveRewind(playServiceId: String, token: String, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Rewind) -> Void)) {

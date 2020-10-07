@@ -401,11 +401,13 @@ extension MainViewController: MediaPlayerAgentDelegate {
     func mediaPlayerAgentReceivePlay(payload: MediaPlayerAgentDirectivePayload.Play, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Play) -> Void)) {
         log.debug("+++")
         NuguCentralManager.shared.samplePlayer.play()
+        completion(.succeeded(message: nil))
     }
     
     func mediaPlayerAgentReceiveStop(playServiceId: String, token: String, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Stop) -> Void)) {
         log.debug("+++")
         NuguCentralManager.shared.samplePlayer.stop()
+        completion(.succeeded)
     }
     
     func mediaPlayerAgentReceiveSearch(payload: MediaPlayerAgentDirectivePayload.Search, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Search) -> Void)) {
@@ -427,11 +429,13 @@ extension MainViewController: MediaPlayerAgentDelegate {
     func mediaPlayerAgentReceivePause(playServiceId: String, token: String, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Pause) -> Void)) {
         log.debug("+++")
         NuguCentralManager.shared.samplePlayer.pause(temporary: false)
+        completion(.succeeded(message: nil))
     }
     
     func mediaPlayerAgentReceiveResume(playServiceId: String, token: String, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Resume) -> Void)) {
         log.debug("+++")
         NuguCentralManager.shared.samplePlayer.resume()
+        completion(.succeeded(message: nil))
     }
     
     func mediaPlayerAgentReceiveRewind(playServiceId: String, token: String, dialogRequestId: String, completion: @escaping ((MediaPlayerAgentProcessResult.Rewind) -> Void)) {

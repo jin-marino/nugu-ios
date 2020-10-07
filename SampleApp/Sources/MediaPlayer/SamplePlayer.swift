@@ -44,12 +44,8 @@ final class SamplePlayer {
     var state: State = .stopped
     
     func play() {
-        guard let url = Bundle.main.url(forResource: "LUV", withExtension: "mp3") else {
-            log.error("Can't find sound file")
-            state = .stopped
-            return
-        }
-        player = AVPlayer(url: url)
+        let url = Bundle.main.url(forResource: "LUV", withExtension: "mp3")
+        player = AVPlayer(url: url!)
         player?.play()
         state = .playing
     }

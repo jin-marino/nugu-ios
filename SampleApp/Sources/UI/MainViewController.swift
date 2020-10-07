@@ -281,6 +281,9 @@ extension MainViewController: DialogStateDelegate {
         log.debug("\(state) \(isMultiturn), \(chips.debugDescription)")
         switch state {
         case .idle:
+            if case SamplePlayer.State.paused(temporary: true) = NuguCentralManager.shared.samplePlayer.state {
+                NuguCentralManager.shared.samplePlayer.resume()
+            }
             voiceChromeDismissWorkItem = DispatchWorkItem(block: { [weak self] in
                 self?.dismissVoiceChrome()
             })
@@ -299,6 +302,9 @@ extension MainViewController: DialogStateDelegate {
                 self.nuguVoiceChrome.changeState(state: .speaking)
             }
         case .listening:
+            if case SamplePlayer.State.playing = NuguCentralManager.shared.samplePlayer.state {
+                NuguCentralManager.shared.samplePlayer.pause(temporary: true)
+            }
             voiceChromeDismissWorkItem?.cancel()
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
@@ -335,13 +341,7 @@ extension MainViewController: ASRAgentDelegate {
             } else {
                 NuguCentralManager.shared.stopMicInputProvider()
             }
-            if case SamplePlayer.State.paused(temporary: true) = NuguCentralManager.shared.samplePlayer.state {
-                NuguCentralManager.shared.samplePlayer.resume()
-            }
         case .listening:
-            if case SamplePlayer.State.playing = NuguCentralManager.shared.samplePlayer.state {
-                NuguCentralManager.shared.samplePlayer.pause(temporary: true)
-            }
             NuguCentralManager.shared.stopWakeUpDetector()
         case .expectingSpeech:
             NuguCentralManager.shared.startMicInputProvider(requestingFocus: true) { (success) in

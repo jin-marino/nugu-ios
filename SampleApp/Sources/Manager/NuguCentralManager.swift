@@ -67,7 +67,7 @@ final class NuguCentralManager {
     private init() {
         NuguServerInfo.resourceServerAddress = "https://stg-gw-http.sktnugu.com"
         NuguOAuthServerInfo.serverBaseUrl = "https://stg-api.sktnugu.com/v1/auth"
-//        NuguServiceWebView.domain = "https://stg-webview.sktnugu.com"
+        NuguServiceWebView.domain = "https://stg-webview.sktnugu.com"
     }
 }
 
